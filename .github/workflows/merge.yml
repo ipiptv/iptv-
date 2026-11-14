@@ -33,24 +33,21 @@ jobs:
           with open('/tmp/hotel_tvn.m3u') as f:
               lines2 = f.readlines()
 
-          # 白名单：(匹配关键词, 输出分组名)，按输出顺序排列
+          # 白名单：主源分组（🌹前缀由酒店源单独处理，不在这里）
           groups_order = [
-              ('央视频道',    '🌹央视频道'),
-('卫视频道',    '🌹卫视频道'),
-('央视频道',    '❤️央视频道'),
-('卫视频道',    '❤️卫视频道'),
-('专享卫视',    '❤️专享卫视'),
-('专享央视',    '❤️专享央视'),
-('其他频道',    '🌹其他频道'),
-('儿童专享',    '💓儿童专享'),
-('电影点播',    '❤️电影点播'),
-('电视剧',      '💓电视剧'),
-('台湾台',      '💓台湾台'),
-('港澳台📶',    '💓港澳台'),
-('国际台',      '💕国际台'),
-('4K(Auto)',   '💓4K(Auto)'),
-('4K(Test)',   '💓4K(Test)'),
-('更新时间',    '❤️更新时间'),
+              ('央视频道',    '❤️央视频道'),
+              ('卫视频道',    '❤️卫视频道'),
+              ('专享卫视',    '❤️专享卫视'),
+              ('专享央视',    '❤️专享央视'),
+              ('儿童专享',    '💓儿童专享'),
+              ('电影点播',    '❤️电影点播'),
+              ('电视剧',      '💓电视剧'),
+              ('台湾台',      '💓台湾台'),
+              ('港澳台📶',    '💓港澳台'),
+              ('国际台',      '💕国际台'),
+              ('4K(Auto)',   '💓4K(Auto)'),
+              ('4K(Test)',   '💓4K(Test)'),
+              ('更新时间',    '❤️更新时间'),
           ]
 
           def match_group(line):
@@ -83,8 +80,8 @@ jobs:
 
           result = []
 
-          # 酒店源放第一位，按 卫视→央视→其他 排序
-          hotel_order = ['卫视频道', '央视频道', '其他频道']
+          # 酒店源放最前面，按 央视→卫视→其他 排序
+          hotel_order = ['央视频道', '卫视频道', '其他频道']
           hotel_buckets = {g: [] for g in hotel_order}
           i = 0
           while i < len(lines2):
@@ -124,7 +121,7 @@ jobs:
           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           cd $(basename ${{ github.repository }})
           git config user.email "bot@bot.com"
-          git config user.name "bot"
+          git config.user.name "bot"
           cp /tmp/merged.m3u merged.m3u
           git add merged.m3u
           git commit -m "自动合并 [skip ci]" || echo "无变化"
