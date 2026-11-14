@@ -121,7 +121,7 @@ jobs:
           git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           cd $(basename ${{ github.repository }})
           git config user.email "bot@bot.com"
-          git config.user.name "bot"
+          git config user.name "bot"
           cp /tmp/merged.m3u merged.m3u
           git add merged.m3u
           git commit -m "自动合并 [skip ci]" || echo "无变化"
